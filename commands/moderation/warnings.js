@@ -13,7 +13,7 @@ module.exports = {
         const target = interaction.options.getUser('target');
         const guildId = interaction.guild.id;
 
-        const warnings = await Warning.find({ userId: target.id, guildId });
+        const warnings = await Warning.find({ userId: target.id, guildId }).sort('index');
 
         if (!warnings.length) {
             return interaction.reply(`${target.tag} has no warnings.`);
@@ -25,7 +25,7 @@ module.exports = {
             .setTimestamp();
 
         warnings.forEach(warning => {
-            embed.addFields({ name: `Warning`, value: `**Reason**: ${warning.reason}\n**Date**: ${warning.date.toDateString()}` });
+            embed.addFields({ name: `Warning #${warning.index}`, value: `**Reason**: ${warning.reason}\n**Date**: ${warning.date.toDateString()}` });
         });
 
         await interaction.reply({ embeds: [embed] });

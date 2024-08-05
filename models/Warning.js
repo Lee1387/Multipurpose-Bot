@@ -17,6 +17,10 @@ const warningSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+    index: {
+        type: Number,
+        required: true,
+    },
 });
 
 module.exports = mongoose.model("Warning", warningSchema);
