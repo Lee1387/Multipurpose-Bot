@@ -29,6 +29,18 @@ module.exports = {
         });
 
         await warning.save();
+
+        try {
+            const dmChannel = await target.createDM();
+            await dmChannel.send(`You have been warned in **${interaction.guild.name}**.
+            **Reason**: ${reason}
+            **Warning**: ${warningIndex}`);
+        } catch (error) {
+            console.error(`Could not send DM to ${target.tag}: ${error}`);
+            await interaction.reply(`${target.tag} has been warned for: ${reason}. However, a DM failed to be sent (likely caused by them having DMs turned off).`);
+            return;
+        }
+
         await interaction.reply(`${target.tag} has been warned for: ${reason}. This is warning #${warningIndex}.`);
     },
 };
